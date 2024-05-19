@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -22,7 +23,7 @@ namespace TelegramBotConsole
                 if (msg.Text.Contains("/start"))
                 {
                     await botClient.SendTextMessageAsync(msg.Chat.Id, $"Бот умеет расчитывать гипотенузу прямоугольного треугольники по двум катетам. " +
-                        $"Можно вводить дробные значения. Для расчета введите два положительных числа через пробел");
+                        $"Можно вводить дробные значения.Для дробных значений необходимо использовать запятую. Для расчета введите два положительных числа через пробел");
                     return;
                 }
       
@@ -48,7 +49,9 @@ namespace TelegramBotConsole
         }
         private static async Task <LegParseData> CheckNumber(string number, string serial, ITelegramBotClient botClient, ChatId id)
         {
-            if (!float.TryParse(number, out float leg))
+            //IFormatProvider formatter = new NumberFormatInfo { NumberDecimalSeparator = "," };
+            CultureInfo ruCulture = new CultureInfo("ru-RU");
+            if (!float.TryParse(number, ruCulture, out float leg))
             {
                 await botClient.SendTextMessageAsync(id, $"{serial} значение не число. Нужно ввести 2 положительных числа через пробел");
                 return new LegParseData { IsValid = false };
