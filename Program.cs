@@ -48,8 +48,7 @@ namespace TelegramBotConsole
             }
         }
         private static async Task <LegParseData> CheckNumber(string number, string serial, ITelegramBotClient botClient, ChatId id)
-        {
-            //IFormatProvider formatter = new NumberFormatInfo { NumberDecimalSeparator = "," };
+        { 
             CultureInfo ruCulture = new CultureInfo("ru-RU");
             if (!float.TryParse(number, ruCulture, out float leg))
             {
